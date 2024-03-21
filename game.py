@@ -63,6 +63,7 @@ class MyGame(arcade.Window):
         inputs = self.driver.tick(self.ct)
 
         if inputs.get("reset"):
+            self.driver.get_settling_time(True)
             self.ship.reset()
 
         p, d, i = inputs.get("p"), inputs.get("d"), inputs.get("i")
@@ -93,6 +94,7 @@ class MyGame(arcade.Window):
             self.ship.reset()
             self.stats.ship = self.ship
             self.driver.ship = self.ship
+            self.driver.get_settling_time(True)     # Resets the settling time timer
         elif key == 115:  # S
             self.ship.star_wind = 3 - self.ship.star_wind
         else:
