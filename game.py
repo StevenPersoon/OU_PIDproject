@@ -107,6 +107,9 @@ class MyGame(arcade.Window):
         elif key == 116:  # T
             self.random_wind = abs(self.random_wind - 1)    # Toggle 0->1->0->1->...
             # So when S pressed random wind starts/stops (at stop, starwind slows down to 0)
+        elif key == 112:   # P
+            self.driver.make_plot(True)
+            # Make a plot
 
         else:
             print("key press", key)
