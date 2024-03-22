@@ -7,6 +7,8 @@ import driver
 import ship
 import stats
 
+import random
+
 SCREEN_WIDTH = 1800
 SCREEN_HEIGHT = 1280
 SCREEN_TITLE = "PID"
@@ -16,6 +18,7 @@ class MyGame(arcade.Window):
     """
     Main application class.
     """
+    random_wind = 0
 
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
@@ -62,6 +65,9 @@ class MyGame(arcade.Window):
 
         inputs = self.driver.tick(self.ct)
 
+        if(self.random_wind):
+            self.ship.star_wind_control = random.randint(1,6)
+
         if inputs.get("reset"):
             self.driver.get_settling_time(True)
             self.ship.reset()
@@ -96,7 +102,12 @@ class MyGame(arcade.Window):
             self.driver.ship = self.ship
             self.driver.get_settling_time(True)     # Resets the settling time timer
         elif key == 115:  # S
+            self.random_wind = 0
             self.ship.star_wind = 3 - self.ship.star_wind
+        elif key == 116:  # T
+            self.random_wind = abs(self.random_wind - 1)    # Toggle 0->1->0->1->...
+            # So when S pressed random wind starts/stops (at stop, starwind slows down to 0)
+
         else:
             print("key press", key)
 
@@ -139,9 +150,9 @@ def main():
     arcade.run()
 
 
-# TODO: enable random star-wind
+# TODO: DONE BY DIRK: enable random star-wind
 # TODO: "docked"
-# TODO: measure/show time until docked
+# TODO: DONE BY STEVEN: measure/show time until docked
 
 
 if __name__ == "__main__":
