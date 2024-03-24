@@ -6,12 +6,15 @@ import math
 
 from reloadable import Reloadable
 
-
 class Driver(Reloadable):
     def __init__(self, state=None, ship=None):
 
         self.ship = ship
         self.reset = True
+
+        self.p_factor = 1
+        self.i_factor = 0.025
+        self.d_factor = 30
 
         self.last_x = ship.x
         self.i = 0
@@ -40,6 +43,11 @@ class Driver(Reloadable):
 
         return inputs
 
+    def set_PID(self, p, i, d):
+        self.p_factor = p
+        self.i_factor = i
+        self.d_factor = d
+
     def get_inputs(self, ct):
 
         moved = self.ship.x - self.last_x
@@ -49,9 +57,9 @@ class Driver(Reloadable):
 
         return {
             "factor": -5,
-            "p": 1 * self.ship.x,
-            "d": 60 * moved,
-            "i": 0.025 * self.i,
+            "p": self.p_factor * self.ship.x,
+            "d": self.d_factor * moved,
+            "i": self.i_factor * self.i,
         }
 
     def get_settling_time(self, reset):
@@ -108,9 +116,6 @@ class Driver(Reloadable):
             plt.show()
         else:
             self.ship_x_values.append(self.ship.x)
-
-
-
 
 
 class ExampleDriver(Reloadable):

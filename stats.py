@@ -120,7 +120,7 @@ class Stats(Reloadable):
 
     def __init__(self, state=None, ship=None):
 
-        self.X = Diagram(0, 180, "X", value=-1)
+        self.X = Diagram(100, 180, "X", value=-1)
         self.T = Diagram(0, 900, "T/   ")
         self.V = Diagram(0, 900, "    V", (255, 0, 255))
         self.p_enabled = False
