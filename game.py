@@ -27,7 +27,7 @@ class MyGame(arcade.Window):
 
     P = 1
     I = 0.025
-    D = 30
+    D = 60
 
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
@@ -151,6 +151,7 @@ class MyGame(arcade.Window):
             self.stats.ship = self.ship
             self.driver.ship = self.ship
             self.driver.get_settling_time(True)     # Resets the settling time timer
+            self.driver.make_plot(False, True)      # Clears list for making plot
         elif key == 115:  # S
             self.random_wind = 0
             self.ship.star_wind = 3 - self.ship.star_wind
@@ -158,7 +159,7 @@ class MyGame(arcade.Window):
             self.random_wind = abs(self.random_wind - 1)    # Toggle 0->1->0->1->...
             # So when S pressed random wind starts/stops (at stop, solar wind slows down to 0)
         elif key == 112:  # P
-            self.driver.make_plot(True)
+            self.driver.make_plot(True, False)
             # Make a plot
         elif key == 100:  # D
             self.show_sliders = abs(self.show_sliders - 1)    # Toggle 0->1->0->1->...

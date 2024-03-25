@@ -39,7 +39,7 @@ class Driver(Reloadable):
             self.reset = False
 
         self.get_settling_time(False)   # Check for settling time every tick
-        self.make_plot(False)
+        self.make_plot(False, False)
 
         return inputs
 
@@ -95,9 +95,12 @@ class Driver(Reloadable):
                     print("The settling time is {} seconds".format(self.ts[-1]))
                     self.printed_time = True
         """
-    def make_plot(self, plot):
-        if plot is True:
-            self.ship_x_values[0] = -1      # When R is pressed it goes to 0 instead of 1, this creates weird plots
+    def make_plot(self, plot, reset):
+        if reset is True:
+            self.ship_x_values.clear()
+            self.ts_time.clear()
+            self.ts.clear()
+        elif plot is True:
             xpoints = np.arange(len(self.ship_x_values))
             ypoints = np.asarray(self.ship_x_values, dtype=np.float32)
             plt.plot(xpoints, ypoints)
