@@ -12,6 +12,7 @@ import ship
 import stats
 
 import random
+import numpy as np
 
 SCREEN_WIDTH = 1800
 SCREEN_HEIGHT = 1280
@@ -23,7 +24,10 @@ class MyGame(arcade.Window):
     Main application class.
     """
     random_wind = 0
+    gaussian_random_wind = 0
     show_sliders = 0
+
+    tick_count = 0
 
     P = 1
     I = 0.025
@@ -118,6 +122,14 @@ class MyGame(arcade.Window):
         if(self.random_wind):
             self.ship.star_wind_control = random.randint(1,6)
 
+        if(self.gaussian_random_wind) and self.tick_count >= 100:
+            self.ship.star_wind_control = int(np.random.normal(0, 3, 1))
+            self.tick_count = 0
+        elif(self.gaussian_random_wind):
+            self.tick_count += 1
+        else:
+            self.tick_count = 0
+
         if inputs.get("reset"):
             self.driver.get_settling_time(True)
             self.ship.reset()
@@ -154,10 +166,17 @@ class MyGame(arcade.Window):
             self.driver.make_plot(False, True)      # Clears list for making plot
         elif key == 115:  # S
             self.random_wind = 0
+            self.gaussian_random_wind = 0
             self.ship.star_wind = 3 - self.ship.star_wind
         elif key == 116:  # T
+            self.gaussian_random_wind = 0
             self.random_wind = abs(self.random_wind - 1)    # Toggle 0->1->0->1->...
-            # So when S pressed random wind starts/stops (at stop, solar wind slows down to 0)
+            # So when T pressed random wind starts/stops (at stop, solar wind slows down to 0)
+        elif key == 117:  # U
+            self.random_wind = 0
+            self.tick_count = 100
+            self.gaussian_random_wind = abs(self.gaussian_random_wind - 1)  # Toggle 0->1->0->1->...
+            # So when U pressed Gaussian random wind starts/stops (at stop, solar wind slows down to 0)
         elif key == 112:  # P
             self.driver.make_plot(True, False)
             # Make a plot
