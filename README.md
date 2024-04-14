@@ -1,3 +1,6 @@
+THE FOLLOWING README IS MADE BY THE ORIGINAL PROGRAMMER
+WE (DIRK & STEVEN) COPIED IT. 
+
 # PID in a nutshell
 
 This is a testbed for control-theory applications: try to steer the ship to the center
